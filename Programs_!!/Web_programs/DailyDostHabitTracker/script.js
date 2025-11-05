@@ -1,0 +1,273 @@
+// Function to get the current date
+function getDayIndex(startDate) {
+  const today = new Date();
+  const start = new Date(startDate);
+  const timeDifference = today - start;
+  const dayDifference = timeDifference / (1000 * 60 * 60 * 24);
+  return Math.floor(dayDifference);
+}
+
+// Array of motivational quotes
+const quotes = [
+  "Consistency is the magic key to success.",
+  "Small daily steps lead to big results.",
+  "Discipline beats motivation.",
+  "One day or day one — you decide.",
+  "The secret of getting ahead is getting started.",
+  "Progress, not perfection.",
+  "You don’t need to be extreme, just consistent.",
+  "Success is the sum of small efforts repeated daily.",
+  "Your future self will thank you for today’s effort.",
+  "Stay patient. Trust your journey.",
+];
+
+// Get the quote element
+const quoteElement = document.getElementById("textquote");
+
+// Function to display a random quote
+function displayRandomQuote() {
+  const randomIndex = Math.floor(Math.random() * quotes.length);
+  quoteElement.textContent = `"${quotes[randomIndex]}"`;
+}
+
+// Run when the page loads
+window.addEventListener("DOMContentLoaded", displayRandomQuote);
+
+// to change quote after 10sec of interval
+setInterval(displayRandomQuote, 10000); // every 10 seconds
+
+//-------------------
+
+// Minimal JS for modal close and form behavior
+document.addEventListener("DOMContentLoaded", function () {
+  const modal = document.getElementById("add-habit-modal");
+  const closeBtn = document.querySelector(".close-modal-btn");
+  const form = modal.querySelector("form"); // Close modal on close button
+  loadTasks();
+  closeBtn.addEventListener("click", function (e) {
+    e.preventDefault();
+    location.hash = "";
+  }); // Close modal on Escape
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && window.location.hash === "#add-habit-modal") {
+      location.hash = "";
+    }
+  }); // Prevent form submission, reset form, and close modal
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    saveTasks();
+    loadTasks();
+    updateTasks();
+    form.reset();
+    updateChart();
+    location.hash = "";
+  });
+});
+
+function saveTasks() {
+  const tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
+  const habitTitle = document.querySelector("#habit-title");
+  const habitGoal = document.querySelector("#habit-goal");
+  const task = {};
+  if (habitTitle.value.trim() !== "") {
+    task.title = habitTitle.value.trim();
+    task.goal = parseInt(habitGoal.value.trim(), 10);
+    task.done = false;
+    const startDate = new Date();
+    task.startDate = startDate.toISOString().split("T")[0];
+    task.dailyCompletion = Array.from({ length: task.goal }, (_, i) => {
+      const date = new Date(startDate);
+      date.setDate(date.getDate() + i);
+      return {
+        date: date.toISOString().split("T")[0],
+        done: false,
+      };
+    });
+    localStorage.setItem(
+      "tasks",
+      JSON.stringify([
+        ...JSON.parse(localStorage.getItem("tasks") || "[]"),
+        task,
+      ])
+    );
+  }
+}
+
+function updateTasks() {
+  const tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
+  const taskList = document.querySelector("#taskList");
+  taskList.innerHTML = ""; // Clear existing tasks
+  tasks.forEach((task, index) => {
+    const taskElement = document.createElement("div");
+    taskElement.className = "habit-card";
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.id = `task-${index}`;
+    // Check if today's date exists in dailyCompletion and is done
+    const today = new Date().toISOString().split("T")[0];
+    const todayCompletion = task.dailyCompletion.find(
+      (day) => day.date === today
+    );
+    checkbox.checked = todayCompletion ? todayCompletion.done : false;
+
+    checkbox.addEventListener("change", function () {
+      const today = new Date().toISOString().split("T")[0];
+      // Find the index of today's date in dailyCompletion
+      const todayIndex = task.dailyCompletion.findIndex(
+        (day) => day.date === today
+      );
+      if (todayIndex !== -1) {
+        // Update the done status for today's date
+        task.dailyCompletion[todayIndex].done = checkbox.checked;
+      } else {
+        // If today's date is not in dailyCompletion, add it
+        task.dailyCompletion.push({
+          date: today,
+          done: checkbox.checked,
+        });
+      }
+      // Update the overall task done status
+      task.done = task.dailyCompletion.every((day) => day.done);
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+      updateTasks(); // Re-render tasks to reflect changes
+      updateChart(); // Update chart on task completion change
+    });
+
+    const label = document.createElement("label");
+    label.htmlFor = `task-${index}`;
+    label.className = "habit-details";
+
+    const habitName = document.createElement("span");
+    habitName.className = "habit-name";
+    habitName.textContent = task.title;
+
+    // Calculate progress
+    const completedDays = task.dailyCompletion.filter((day) => day.done).length;
+    const progressPercentage = (completedDays / task.goal) * 100;
+    const remainingDays = task.goal - completedDays;
+
+    const progressBarLabel = document.createElement("span");
+    progressBarLabel.className = "progress-bar-label";
+    progressBarLabel.textContent = `Day ${completedDays} of ${task.goal} (${remainingDays} remaining)`;
+
+    const progressBar = document.createElement("div");
+    progressBar.className = "progress-bar";
+
+    const progressFill = document.createElement("div");
+    progressFill.className = "progress-fill";
+    progressFill.style.width = `${progressPercentage}%`;
+
+    progressBar.appendChild(progressFill);
+    label.appendChild(habitName);
+    label.appendChild(progressBarLabel);
+    label.appendChild(progressBar);
+
+    const completionToggle = document.createElement("label");
+    completionToggle.className = "completion-toggle";
+    completionToggle.htmlFor = `task-${index}`;
+
+    taskElement.appendChild(checkbox);
+    taskElement.appendChild(label);
+    taskElement.appendChild(completionToggle);
+
+    taskList.appendChild(taskElement);
+  });
+}
+
+// The loadTasks function is no longer needed as updateTasks handles rendering
+// We'll keep it for now but it will just call updateTasks
+function loadTasks() {
+  updateTasks();
+  updateChart(); // Update chart after loading tasks
+}
+
+// ------------------
+// Progress graph data: update for your habits
+const chartElement = document.getElementById("progressChart");
+
+const ctx = chartElement.getContext("2d");
+
+// Add storage event listener to update chart when tasks data changes
+window.addEventListener("storage", function (event) {
+  if (event.key === "tasks") {
+    updateChart();
+  }
+});
+
+// Function to update the chart
+function updateChart() {
+  const tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
+  console.log("updateChart called");
+  console.log("Current tasks data:", tasks);
+
+  const habitLabels = tasks.map((task) => task.title);
+  const chartData = tasks.map((task) => {
+    if (!Array.isArray(task.dailyCompletion)) {
+      console.error(`Task ${task.title} has invalid dailyCompletion data.`);
+      return 0;
+    }
+    return task.dailyCompletion.filter((day) => day.done).length;
+  });
+  console.log("Chart data:", chartData);
+
+  const ctx = chartElement.getContext("2d");
+
+  if (!ctx) {
+    console.error("Failed to get 2D context for the chart.");
+    return;
+  }
+
+  // Validate tasks data
+  if (!Array.isArray(tasks)) {
+    console.error("Tasks data is not an array.");
+    return;
+  }
+
+  // Create or update the Chart instance
+  if (window.chartInstance) {
+    window.chartInstance.destroy();
+  }
+
+  window.chartInstance = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: habitLabels,
+      datasets: [
+        {
+          label: "Days Completed",
+          data: tasks.map((task) => {
+            if (!Array.isArray(task.dailyCompletion)) {
+              console.error(
+                `Task ${task.title} has invalid dailyCompletion data.`
+              );
+              return 0;
+            }
+            // No need to add event listener here
+            return task.dailyCompletion.filter((day) => day.done).length;
+          }),
+          backgroundColor: [
+            "rgba(46,139,87,0.7)",
+            "rgba(76,175,80,0.7)",
+            "rgba(136,136,136,0.7)",
+          ],
+          borderColor: ["#2E8B57", "#4CAF50", "#888888"],
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 30,
+        },
+      },
+    },
+  });
+}
+
+// Initial call to update the chart with current tasks data
+updateChart();

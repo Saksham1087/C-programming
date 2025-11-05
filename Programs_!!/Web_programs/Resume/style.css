@@ -1,0 +1,164 @@
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f4;
+    color: #333;
+    display: flex;
+    justify-content: center;
+}
+
+.resume-container {
+    width: 8.5in; /* Standard A4 width for printing */
+    max-width: 850px;
+    background-color: #fff;
+    padding: 40px 60px; /* Adjust padding to match image */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    font-size: 2em;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.header .subtitle {
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.header .contact-info {
+    font-size: 0.8em;
+    color: #777;
+}
+
+.section {
+    margin-bottom: 25px;
+}
+
+.section-title {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+    color: #333;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.line {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 15px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Specific styling for sections to match the layout */
+.summary p,
+.experience-item p,
+.interests-item p {
+    font-size: 0.9em;
+    text-align: justify;
+}
+
+/* Key Achievements Grid */
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    font-size: 0.9em;
+}
+
+.achievement-item h3 {
+    margin-bottom: 5px;
+    font-size: 1em;
+}
+
+/* Education Section */
+.education-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 0.9em;
+}
+
+.education-item h3 {
+    margin-bottom: 2px;
+    font-size: 1em;
+}
+
+.education-meta p {
+    text-align: right;
+    margin: 0;
+}
+
+/* Strengths Grid */
+.strengths-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    font-size: 0.9em;
+}
+
+.strength-item h3 {
+    margin-bottom: 5px;
+    font-size: 1em;
+}
+
+/* Languages Grid */
+.languages-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    text-align: left;
+    font-size: 0.9em;
+}
+
+.languages-grid h3 {
+    font-weight: normal;
+    margin: 0;
+}
+
+/* Skills Section (list of skills) */
+.section:nth-of-type(8) p { /* Targeting the skills paragraph after languages */
+    font-size: 0.9em;
+}
+
+/* Training / Courses List */
+.section ul {
+    list-style-type: none; /* Remove bullet points */
+    padding: 0;
+    margin: 0;
+    font-size: 0.9em;
+}
+
+.section ul li {
+    margin-bottom: 5px;
+}
+
+/* Adjustments for responsiveness if needed */
+@media (max-width: 768px) {
+    .resume-container {
+        padding: 30px;
+    }
+    .achievements-grid,
+    .strengths-grid,
+    .languages-grid {
+        grid-template-columns: 1fr;
+    }
+    .education-item {
+        flex-direction: column;
+    }
+    .education-meta {
+        text-align: left !important;
+    }
+    .education-meta p {
+        text-align: left;
+    }
+}

@@ -1,0 +1,288 @@
+/* --- Global & Variables --- */
+:root {
+    --primary-color: #2E8B57; /* Sea Green - Friendly, calm, and motivational */
+    --secondary-color: #4CAF50; /* Slightly brighter green for accents */
+    --bg-color: #f7f7f7; /* Light background */
+    --card-bg: #ffffff; /* White card background */
+    --text-color: #333333;
+    --completed-color: #888888; /* Grey for completed items */
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    padding: 20px;
+}
+
+h1, h2, h3 {
+    color: var(--primary-color);
+}
+
+/* --- Header & Quote --- */
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.quote {
+    font-style: italic;
+    color: var(--completed-color);
+    margin-top: 5px;
+    font-size: 0.9em;
+}
+
+/* --- Dashboard & Layout --- */
+.dashboard {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* --- Streak Summary --- */
+.streak-summary {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+}
+
+.streak-summary h2 {
+    color: white;
+    font-size: 2em;
+    margin-bottom: 5px;
+}
+
+/* --- Add Habit Button --- */
+.add-habit-btn {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: var(--secondary-color);
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 8px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    transition: background-color 0.2s;
+}
+
+.add-habit-btn:hover {
+    background-color: #3CB371; /* Darker green on hover */
+}
+
+/* --- Habit List & Cards --- */
+.habit-list h3 {
+    margin-bottom: 15px;
+}
+
+.habit-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--card-bg);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+}
+
+/* Hide the actual checkbox */
+.habit-card input[type="checkbox"] {
+    display: none;
+}
+
+.habit-details {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.habit-name {
+    font-size: 1.1em;
+    font-weight: 600;
+    margin-bottom: 5px;
+    transition: text-decoration 0.3s, color 0.3s;
+}
+
+/* Progress Bar */
+.progress-bar-label {
+    font-size: 0.8em;
+    color: var(--completed-color);
+    margin-bottom: 3px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: var(--primary-color);
+    transition: width 0.5s ease;
+}
+
+/* Completion Toggle (Custom Checkbox Look) */
+.completion-toggle {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: 3px solid var(--primary-color);
+    cursor: pointer;
+    position: relative;
+    margin-left: 20px;
+    transition: all 0.3s;
+    flex-shrink: 0;
+}
+
+/* Icon for Checkmark */
+.completion-toggle::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 12px;
+    height: 20px;
+    border: solid white;
+    border-width: 0 4px 4px 0;
+    transform: translate(-50%, -65%) rotate(45deg);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+/* --- CSS Interactivity (The Core Trick!) --- */
+
+/* State when the checkbox is CHECKED (Habit Completed) */
+.habit-card input[type="checkbox"]:checked ~ .completion-toggle {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.habit-card input[type="checkbox"]:checked ~ .completion-toggle::after {
+    opacity: 1; /* Show the checkmark */
+}
+
+.habit-card input[type="checkbox"]:checked ~ .habit-details .habit-name {
+    text-decoration: line-through;
+    color: var(--completed-color);
+}
+
+.habit-card input[type="checkbox"]:checked ~ .habit-details .progress-fill {
+    /* Optional: Show a full, completed state */
+    background-color: var(--completed-color);
+}
+
+/* --- Modal Simulation (:target) --- */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: none; /* Hidden by default */
+    z-index: 1000;
+}
+
+/* When the link points to the modal's ID, show the modal */
+.modal:target {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: var(--card-bg);
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    position: relative;
+    box-shadow: var(--shadow);
+}
+
+.modal-content h2 {
+    margin-bottom: 20px;
+}
+
+.modal-content label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.modal-content input[type="text"],
+.modal-content input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.submit-btn:hover {
+    background-color: #246B46;
+}
+
+.close-modal-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 2em;
+    color: var(--completed-color);
+    text-decoration: none;
+}
+
+/* --- Media Queries for Desktop Layout --- */
+@media (min-width: 768px) {
+    body {
+        padding: 40px;
+    }
+    
+    .dashboard {
+        max-width: 800px;
+    }
+    
+    .streak-summary {
+        padding: 30px 40px;
+    }
+
+    .habit-card {
+        padding: 20px;
+    }
+    
+    .add-habit-btn {
+        max-width: 400px; /* Center the button on larger screens */
+        margin-left: auto;
+        margin-right: auto;
+    }
+}

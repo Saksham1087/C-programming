@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DailyDost - Habit Tracker Mockup</title>
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+
+    <header>
+        <h1>DailyDost 🌱</h1>
+        <p class="quote" id="textquote">"Consistency is the magic key to success."</p>
+    </header>
+
+    <main class="dashboard">
+
+        <section class="streak-summary">
+            <h2>Current Streak: 7 Days 🔥</h2>
+            <p>Keep up the great work! You've completed 12 habits this week.</p>
+        </section>
+
+        <a href="#add-habit-modal" class="add-habit-btn">+ Add New Habit</a>
+
+        <section class="habit-list">
+            <h3>Today's Focus</h3>
+
+            <div id="taskList">
+            
+        </div>
+        </section>
+
+    </main>
+    
+    <div id="add-habit-modal" class="modal">
+        <div class="modal-content">
+            <h2>Add New Habit</h2>
+            <form>
+                <label for="habit-title">Habit Name:</label>
+                <input type="text" id="habit-title" placeholder="e.g., Drink 8 glasses of water" required>
+                
+                <label for="habit-goal">Goal:</label>
+                <input type="number" id="habit-goal" placeholder="e.g., 30 (days/repetitions)">
+                
+                <button type="submit" class="submit-btn">Add Dost</button>
+            </form>
+            <a href="#" class="close-modal-btn">&times;</a>
+        </div>
+    </div>
+  <section style="margin:30px 0;">
+  <h3>Habit Progress Comparison</h3>
+  <canvas id="progressChart" width="400" height="220"></canvas>
+</section>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="script.js"></script>
+</body>
+</html>
