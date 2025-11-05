@@ -1,0 +1,25 @@
+
+======================================================
+ATM SESSION STARTED at 2025-11-05 12:08:31
+======================================================
+
+[2025-11-05 12:08:43] NEW ACCOUNT CREATED
+  Name: saksham
+  Email: raisaksham1087@gmail.com
+  Mobile: 238436463
+  Account Number: MH0HDFC872025
+ATM SESSION ENDED at 2025-11-05 12:09:44.
+======================================================
+
+======================================================
+ATM SESSION STARTED at 2025-11-05 12:38:43
+======================================================
+
+[2025-11-05 12:38:57] NEW ACCOUNT CREATED
+  Name: Saksham Rai
+  Email: saksham.s.rai25@slrtce.in
+  Mobile: 8468847274
+  Account Number: MH0HDFC892025
+[2025-11-05 12:39:53] DEPOSIT: Amount: +54500 | New Balance: 154500
+ATM SESSION ENDED at 2025-11-05 12:40:10.
+======================================================
