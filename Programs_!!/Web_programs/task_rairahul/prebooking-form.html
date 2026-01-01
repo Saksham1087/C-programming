@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<htmnl>
+  <head>
+    <title>Festival Pre Booking
+    </title>
+    <style>
+    
+    .mb-form-container {
+        max-width: 500px;
+        margin: 20px auto;
+        padding: 30px;
+        background: #ffffff;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        font-family:   sans-serif;
+        border-top: 5px solid orange; 
+    }
+
+    .mb-form-header {
+        text-align: center;
+        margin-bottom: 25px;
+    }
+
+    .mb-form-header h2 {
+        color: #2c3e50;
+        margin: 0;
+        font-size: 24px;
+    }
+
+    .mb-form-header p {
+        color: #7f8c8d;
+        font-size: 14px;
+        margin-top: 5px;
+    }
+
+    .mb-form-group {
+        margin-bottom: 18px;
+    }
+
+    .mb-form-group label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 8px;
+        color: #34495e;
+        font-size: 14px;
+    }
+
+    .mb-form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #ecf0f1;
+        border-radius: 8px;
+        font-size: 16px;
+        box-sizing: border-box; 
+        transition: border-color 0.3s ease;
+    }
+
+    .mb-form-control:focus {
+        outline: none;
+        border-color: #e67e22;
+        background-color: #fffaf5;
+    }
+
+    .mb-submit-btn {
+        width: 100%;
+        background-color: #e67e22;
+        color: white;
+        padding: 15px;
+        border: none;
+        border-radius: 8px;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: transform 0.2s, background 0.3s;
+    }
+
+    .mb-submit-btn:hover {
+        background-color: #d35400;
+        transform: translateY(-2px);
+    }
+
+    .mb-submit-btn:active {
+        transform: translateY(0);
+    }
+
+</style>
+  </head>
+  <body>
+<div class="mb-form-container">
+    <div class="mb-form-header">
+        <h2>Festival Pre-Booking</h2>
+        <p>Fill in your details to lock in your offer!</p>
+    </div>
+
+    <form action="#" method="POST">
+        
+        <div class="mb-form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" class="mb-form-control" placeholder="Enter your name" required>
+        </div>
+
+        <div class="mb-form-group">
+            <label for="mobile">Mobile Number</label>
+            <input type="tel" id="mobile" name="mobile" class="mb-form-control" placeholder="10-digit mobile number" pattern="[0-9]{10}" required>
+        </div>
+
+        <div class="mb-form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" class="mb-form-control" placeholder="example@mail.com" required>
+        </div>
+
+        <div class="mb-form-group">
+            <label for="pincode">Delivery Pincode</label>
+            <input type="text" id="pincode" name="pincode" class="mb-form-control" placeholder="e.g. 401107" required>
+        </div>
+
+        <div class="mb-form-group">
+            <label for="requirement">I am interested in:</label>
+            <select id="requirement" name="requirement" class="mb-form-control" required>
+                <option value="" disabled selected>Select a product</option>
+                <option value="Mattress">Mattress Special Offer</option>
+                <option value="Pillow">Pillow Combo Pack</option>
+                <option value="Blanket">Handmade Blanket</option>
+            </select>
+        </div>
+
+        <div class="mb-form-group">
+            <label for="notes">Special Requirements / Notes</label>
+            <textarea id="notes" name="notes" class="mb-form-control" style="height: 100px;" placeholder="Mention specific sizes, colors, or preferred delivery dates..."></textarea>
+        </div>
+
+        <button type="submit" class="mb-submit-btn">Get My Offer Now</button>
+    </form>
+</div>
+  </body>
+  </html>
